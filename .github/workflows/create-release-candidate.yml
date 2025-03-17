@@ -1,0 +1,30 @@
+name: Create Release Candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version number (e.g. 1.0.0)"
+        required: true
+      rc-verion:
+        description: "RC version number (e.g. 1)"
+        required: true
+
+jobs:
+  create-rc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Development Branch
+        uses: actions/checkout@v4
+        with:
+          ref: development
+
+      - name: Create RC Branch
+        run: |
+          git checkout -b release/v${{ github.event.inputs.version }}-rc
+          git push origin release/v${{ github.event.inputs.version }}-rc
+
+      - name: Create RC Tag
+        run: |
+          git tag v${{ github.event.inputs.version }}-rc${{ github.event.inputs.rc-version }}
+          git push origin v${{ github.event.inputs.version }}-rc${{ github.event.inputs.rc-version }}

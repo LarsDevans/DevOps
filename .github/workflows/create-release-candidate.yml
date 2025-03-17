@@ -8,6 +8,7 @@ on:
         required: true
       rc-verion:
         description: "RC version number (e.g. 1)"
+        default: "1"
         required: true
 
 jobs:

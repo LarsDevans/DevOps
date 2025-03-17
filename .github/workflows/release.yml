@@ -1,0 +1,25 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Zip Release
+      uses: TheDoctor0/zip-release@0.7.6
+      with:
+        directory: 'src'
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: 'release.zip'
